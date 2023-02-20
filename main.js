@@ -16,6 +16,7 @@ console.log (users)
 
 //affichage des cards
 
+function showCard () {
     const $div = document.createElement("div");
     $div.style.maxWidth = "1245px"
     $div.style.margin = "auto"
@@ -60,6 +61,7 @@ console.log (users)
 
 //Button add user    
     const aAddUser = document.createElement('button')
+    aAddUser.setAttribute('id','aAdd')
     aAddUser.style.margin = '5px 20px 0 0'
     aAddUser.style.padding = "10px 20px"
     aAddUser.style.borderRadius = "10px"
@@ -68,6 +70,8 @@ console.log (users)
     aAddUser.style.color = "black"
     aAddUser.style.backgroundColor = "#3AA93A"
     divHead.append(aAddUser)
+
+    
 
 // card
 for (var i=0; i<users.length; i++) {
@@ -106,8 +110,58 @@ for (var i=0; i<users.length; i++) {
     avatar.style.height = "200px"
     avatar.style.borderRadius = '100px' 
     $aCard.append(avatar)
-}
+}}
 
 // affichage formulaire
 
+const showFormulaire = document.querySelector('#aAdd')
+showFormulaire.addEventListener('click',() => {
+    
+})
+
+  function addInscreption () {
+    const data = {
+      firstName : "",
+      lastName: "",
+      age:"",
   
+    }
+  
+  
+    const inputName = document.querySelector("#name")
+    inputName.addEventListener('input',(event) =>{
+      data.firstName = event.target.value
+    })
+    
+  
+    const inputLastName = document.querySelector("#lastName")
+    inputLastName.addEventListener('input',(event) =>{
+      data.lastName = event.target.value       
+    })
+  
+    const inputAvatar = document.querySelector("#avatar")
+    inputAvatar.addEventListener('input',(event) =>{
+      data.avatar = event.target.value       
+    })
+  
+    document.getElementById('submit').addEventListener ('click', (event) => {
+      event.preventDefault();
+      fetch ("http://localhost:3000/users", {
+        method:'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+  
+      }).then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+          showCard ()
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+  
+      })
+  }
+ 
